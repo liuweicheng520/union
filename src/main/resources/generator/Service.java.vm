@@ -1,0 +1,29 @@
+package ${package}.service;
+
+import ${package}.model.${className};
+
+import java.util.List;
+import java.util.Map;
+
+/**
+ * ${comments}
+ * 
+ * @author ${author}
+ * @email ${email}
+ * @date ${datetime}
+ */
+public interface ${className}Service {
+	
+	${className} findById(${pk.attrType} ${pk.attrname});
+
+	${className} findByMap(Map<String, Object> map);
+	
+	List<${className}> list(Map<String, Object> map);
+	
+	int save(${className} ${classname});
+	
+	int update(${className} ${classname});
+
+	int delete(${pk.attrType} ${pk.attrname});
+
+}
