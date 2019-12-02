@@ -71,6 +71,7 @@
                         <span style="display: none;" class="glyphicon glyphicon-ok form-control-feedback"></span>
                     </div>
 
+
                     <div class="form-group has-feedback">
                         <label for="ad-writer">作者</label>
                         <div class="input-group">
@@ -94,25 +95,26 @@
                         <span style="display: none;" class="glyphicon glyphicon-remove form-control-feedback"></span>
                         <span style="display: none;" class="glyphicon glyphicon-ok form-control-feedback"></span>
                     </div>
-
                     <div class="form-group has-feedback">
-                        <label for="ad-num">数量</label>
+                        <label for="ad-publisher">图书类型</label>
                         <div class="input-group">
-                            <span class="input-group-addon"><span class="glyphicon glyphicon-plus"></span></span>
-                            <input id="ad-num" class="form-control" placeholder="请输入数量" maxlength="4">
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-info-sign"></span></span>
+                            <select id="ad-type" class="form-control">
+                                <option value="1" selected>文学</option>
+                                <option value="2">科幻</option>
+                                <option value="3">漫画</option>
+                            </select>
                         </div>
+                        <div class="text-right">
+                            <button class="btn btn-primary" type="button" id="btn-add">添加</button>
+                            <button class="btn btn-danger" data-dismiss="modal">取消</button>
+                        </div>
+
 
                         <span style="color:red;display: none;" class="tips"></span>
                         <span style="display: none;" class="glyphicon glyphicon-remove form-control-feedback"></span>
                         <span style="display: none;" class="glyphicon glyphicon-ok form-control-feedback"></span>
                     </div>
-
-
-                    <div class="text-right">
-                        <button class="btn btn-primary" type="button" id="btn-add">添加</button>
-                        <button class="btn btn-danger" data-dismiss="modal">取消</button>
-                    </div>
-
                 </form>
             </div>
         </div>
@@ -164,17 +166,19 @@
                 <th>isbn</th>
                 <th>书名</th>
                 <th>出版社</th>
+                <th>分类</th>
                 <th>作者</th>
                 <th>出版时间</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="booklist: ${list}">
-                <td th:text="${booklist.isbn}"></td>
-                <td th:text="${booklist.bname}"></td>
-                <td th:text="${booklist.publisher}"></td>
-                <td th:text="${booklist.writer}"></td>
-                <td th:text="(${booklist.ptime.getYear()}+1900)+'年'"></td>
+                <td th:text="${booklist.bookNo}"></td>
+                <td th:text="${booklist.bookName}"></td>
+                <td th:text="${booklist.pressName}"></td>
+                <td th:text="${booklist.getBookTypeName()}"></td>
+                <td th:text="${booklist.authorName}"></td>
+                <td th:text="(${booklist.getCreateTimeString()})"></td>
             </tr>
             </tbody>
         </table>

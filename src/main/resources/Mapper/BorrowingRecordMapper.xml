@@ -4,19 +4,22 @@
 <mapper namespace="com.lrkj.dao.BorrowingRecordMapper">
 
     <select id="findById" resultType="com.lrkj.model.BorrowingRecord">
-        select `id`,`borrowing_no`,`book_id`,`user_id`,`fine_money`,`status`,`create_time`,`end_time`,`is_del` from borrowing_record
+        select `id`,`borrowing_no`,`book_id`,`user_id`,`user_name`,`book_name`,`fine_money`,`renewal_num`,`status`,`create_time`,`end_time`,`is_del` from borrowing_record
         where id = #{value}
                     and is_del = 0
     </select>
 
     <select id="findByMap" resultType="com.lrkj.model.BorrowingRecord">
-        select `id`,`borrowing_no`,`book_id`,`user_id`,`fine_money`,`status`,`create_time`,`end_time`,`is_del` from borrowing_record
+        select `id`,`borrowing_no`,`book_id`,`user_id`,`user_name`,`book_name`,`fine_money`,`renewal_num`,`status`,`create_time`,`end_time`,`is_del` from borrowing_record
         <where>
             <if test="id != null and id != ''"> and id = #{id} </if>
             <if test="borrowingNo != null and borrowingNo != ''"> and borrowing_no = #{borrowingNo} </if>
             <if test="bookId != null and bookId != ''"> and book_id = #{bookId} </if>
             <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+            <if test="userName != null and userName != ''"> and user_name = #{userName} </if>
+            <if test="bookName != null and bookName != ''"> and book_name = #{bookName} </if>
             <if test="fineMoney != null and fineMoney != ''"> and fine_money = #{fineMoney} </if>
+            <if test="renewalNum != null and renewalNum != ''"> and renewal_num = #{renewalNum} </if>
             <if test="status != null and status != ''"> and status = #{status} </if>
             <if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
             <if test="endTime != null and endTime != ''"> and end_time = #{endTime} </if>
@@ -27,13 +30,16 @@
     </select>
 
     <select id="list" resultType="com.lrkj.model.BorrowingRecord">
-        select `id`,`borrowing_no`,`book_id`,`user_id`,`fine_money`,`status`,`create_time`,`end_time`,`is_del` from borrowing_record
+        select `id`,`borrowing_no`,`book_id`,`user_id`,`user_name`,`book_name`,`fine_money`,`renewal_num`,`status`,`create_time`,`end_time`,`is_del` from borrowing_record
         <where>
             <if test="id != null and id != ''">and id = #{id}</if>
             <if test="borrowingNo != null and borrowingNo != ''">and borrowing_no = #{borrowingNo}</if>
             <if test="bookId != null and bookId != ''">and book_id = #{bookId}</if>
             <if test="userId != null and userId != ''">and user_id = #{userId}</if>
+            <if test="userName != null and userName != ''">and user_name = #{userName}</if>
+            <if test="bookName != null and bookName != ''">and book_name = #{bookName}</if>
             <if test="fineMoney != null and fineMoney != ''">and fine_money = #{fineMoney}</if>
+            <if test="renewalNum != null and renewalNum != ''">and renewal_num = #{renewalNum}</if>
             <if test="status != null and status != ''">and status = #{status}</if>
             <if test="createTime != null and createTime != ''">and create_time = #{createTime}</if>
             <if test="endTime != null and endTime != ''">and end_time = #{endTime}</if>
@@ -59,7 +65,10 @@
             <if test="borrowingNo != null">`borrowing_no`,</if>
             <if test="bookId != null">`book_id`,</if>
             <if test="userId != null">`user_id`,</if>
+            <if test="userName != null">`user_name`,</if>
+            <if test="bookName != null">`book_name`,</if>
             <if test="fineMoney != null">`fine_money`,</if>
+            <if test="renewalNum != null">`renewal_num`,</if>
             <if test="status != null">`status`,</if>
             <if test="createTime != null">`create_time`,</if>
             <if test="endTime != null">`end_time`,</if>
@@ -70,7 +79,10 @@
             <if test="borrowingNo != null">#{borrowingNo},</if>
             <if test="bookId != null">#{bookId},</if>
             <if test="userId != null">#{userId},</if>
+            <if test="userName != null">#{userName},</if>
+            <if test="bookName != null">#{bookName},</if>
             <if test="fineMoney != null">#{fineMoney},</if>
+            <if test="renewalNum != null">#{renewalNum},</if>
             <if test="status != null">#{status},</if>
             <if test="createTime != null">#{createTime},</if>
             <if test="endTime != null">#{endTime},</if>
@@ -84,7 +96,10 @@
             <if test="borrowingNo != null">`borrowing_no` = #{borrowingNo},</if>
             <if test="bookId != null">`book_id` = #{bookId},</if>
             <if test="userId != null">`user_id` = #{userId},</if>
+            <if test="userName != null">`user_name` = #{userName},</if>
+            <if test="bookName != null">`book_name` = #{bookName},</if>
             <if test="fineMoney != null">`fine_money` = #{fineMoney},</if>
+            <if test="renewalNum != null">`renewal_num` = #{renewalNum},</if>
             <if test="status != null">`status` = #{status},</if>
             <if test="createTime != null">`create_time` = #{createTime},</if>
             <if test="endTime != null">`end_time` = #{endTime},</if>

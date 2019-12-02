@@ -14,18 +14,18 @@
     <nav class="nav nav-tabs" style="margin-top:50px;background-color: #EEEEEE">
         <div class="container-fluid">
             <div class="navbar-header">
-                <a class="navbar-brand" href="/managebooks/admin/homepage">图书管理</a>
+                <a class="navbar-brand" href="/home.do">图书管理</a>
             </div>
             <div>
                 <ul class="nav navbar-nav">
                     <li class="active"><a href="/managebooks/admin/books">添加图书</a></li>
-                    <li><a href="/managebooks/admin/reservation">管理预约</a></li>
+                    <li><a href="/admin/addBook">管理预约</a></li>
                     <li><a href="/managebooks/admin/borrow">查看借阅情况</a></li>
                 </ul>
             </div>
 
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#" style="color: #000000"><span th:text="${user.userName}+',欢迎您'"
+                <li><a href="#" style="color: #000000"><span th:text="${session.user.nickname}+',欢迎您'"
                                                              class="glyphicon glyphicon-user"></span>&nbsp;</a></li>
                 <li><a href="/managebooks/login"><span class="glyphicon glyphicon-log-in"></span>&nbsp;退出</a></li>
             </ul>
@@ -33,7 +33,7 @@
     </nav>
 </div>
 
-<a href="/managebooks/admin/books">
+<a href="/admin/addBook">
     <div class="square1">
         <div class="no-logo">添加图书</div>
     </div>
@@ -41,7 +41,7 @@
 
 <a href="/managebooks/admin/borrow">
     <div class="square1">
-        <div class="no-logo">管理预约</div>
+        <div class="no-logo">系统设置</div>
     </div>
 </a>
 

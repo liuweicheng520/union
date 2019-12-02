@@ -1,5 +1,6 @@
 var checkadd = [false, false, false, false];
 var checkdel = [false];
+
 //校验成功函数
 function success(Obj, counter, check, offset) {
     Obj.parent().parent().removeClass('has-error').addClass('has-success');
@@ -91,21 +92,21 @@ $('#btn-add').click(function (e) {
         var publisher = document.getElementById("ad-publisher").value;
         var writer = document.getElementById("ad-writer").value;
         var ptime = document.getElementById("ad-ptime").value;
-        var number = document.getElementById("ad-num").value;
+        var bookType = document.getElementById("ad-type").value;
         var booklist = {
-            'isbn': ISBN, 'bname': bname,
-            'publisher': publisher, 'writer': writer,
-            'ptime': ptime, 'number': number
+            'bookNo': ISBN, 'bookName': bname,
+            'pressName': publisher, 'authorName': writer,
+            'createTime': ptime, 'bookType': bookType
         };
         var JSONdata = JSON.stringify(booklist);
         $.ajax({
             type: "post",
-            url: "/managebooks/admin/books",
+            url: "/book/add.do",
             data: JSONdata,
             dataType: "json",
             contentType: "application/json;charset=UTF-8",
             success: function (result) {
-                if (result['success']) {
+                if (result.code == 200) {
                     alert("添加成功");
                 } else {
                     alert("添加失败");
@@ -127,8 +128,8 @@ $('#delete').find('input').eq(0).change(function () {
 
 $('#btn-delete').click(function (e) {
     if (!checkadd.every(function (value) {
-            return value == true
-        })) {
+        return value == true
+    })) {
         e.preventDefault();
         for (key in checkdel) {
             if (!checkdel[key]) {
@@ -143,7 +144,7 @@ $('#btn-delete').click(function (e) {
         var JSONdata = JSON.stringify(booklist);
         $.ajax({
             type: "post",
-            url: "/managebooks/admin/delete",
+            url: "/book/admin/delete",
             data: JSONdata,
             dataType: "json",
             contentType: "application/json;charset=UTF-8",

@@ -1,6 +1,7 @@
 package com.lrkj.dao;
 
 import com.lrkj.model.BaseUser;
+import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 import java.util.Map;
