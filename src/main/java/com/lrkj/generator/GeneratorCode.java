@@ -41,7 +41,7 @@ public class GeneratorCode {
 
 
     public static void main(String[] args) throws Exception {
-        genCodeByTableNames("admin", "borrowing_record");
+        genCodeByTableNames("admin", "base_user");
     }
 
     public static void genCodeByTableNames(String platformUrl, String... tableNames) throws Exception {

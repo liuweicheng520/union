@@ -107,7 +107,7 @@ $('#btn-add').click(function (e) {
             contentType: "application/json;charset=UTF-8",
             success: function (result) {
                 if (result.code == 200) {
-                    alert("添加成功");
+                    alert(result.data);
                 } else {
                     alert("添加失败");
                 }

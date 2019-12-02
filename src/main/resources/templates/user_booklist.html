@@ -13,12 +13,22 @@
 <div th:include="../static/common/headbar::headbar"></div>
 <div th:include="./detail_user::homepage"></div>
 <div style="padding: 20px 550px 10px">
-    <form method="post" action="/managebooks/query" class="form-inline" id="searchform">
+    <form method="get" action="/user/bookList.do" class="form-inline" id="searchform">
         <div class="input-group">
-            <input type="text" placeholder="输入图书名" class="form-control" name="bname">
+            <input type="text" placeholder="输入图书名" class="form-control" name="bookName">
+
             <span class="input-group-btn">
                 <input type="submit" value="搜索" class="btn btn-default">
             </span>
+
+        </div>
+        <div class="input-group">
+            <select id="ad-type" style="width: 80px" class="form-control" name="bookType">
+                <option value="0" selected>所有</option>
+                <option value="1">文学</option>
+                <option value="2">科幻</option>
+                <option value="3">漫画</option>
+            </select>
         </div>
     </form>
 </div>
@@ -50,8 +60,17 @@
                 <td th:text="(${booklist.getCreateTimeString()})"></td>
 
                 <td>
-                    <a th:href="'/book/'+${booklist.id}+'/borrowing.do'">
-                        <button th:if="${booklist.getStatus() == 0}" type="button" class="btn btn-info">借阅</button>
+                    <span th:if="${overdueNum >0}"
+                          style="color: red">需要缴纳罚款
+                    </span>
+                    <span th:if="${overdueNum == 0 and borrowingNum >= 3}"
+                          style="color: red">已达到3次限定次数
+                    </span>
+                    <a th:if="${overdueNum == 0 and borrowingNum <3}" th:href="'/book/'+${booklist.id}+'/borrowing.do'">
+                        <button th:if="${booklist.getStatus() == 0 }" type="button"
+                                class="btn btn-info">借阅
+                        </button>
+
                         <button th:if="${booklist.getStatus() == 1}" type="button" class="btn btn-info"
                                 style="color: red" disabled>已被借阅
                         </button>

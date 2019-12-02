@@ -73,14 +73,23 @@ public class BorrowingRecord implements Serializable {
     public int overdueStatus() {
         long time = endTime - System.currentTimeMillis() / 1000;
         if (status != 2) {
-			if (time < 0) {
-				return 2;
-			} else if (time < (60 * 60 * 24)) {
-				return 1;
-			}
+            if (time < 0) {
+                return 2;
+            } else if (time < (60 * 60 * 24)) {
+                return 1;
+            }
         }
 
         return 0;
     }
 
+    public Long fineMoney() {
+        if (status == 3) {
+            long time = System.currentTimeMillis() / 1000 - endTime;
+            long num = time / (60 * 60 * 24);
+            return num * 2;//
+            // 2块钱一天
+        }
+        return 0L;
+    }
 }

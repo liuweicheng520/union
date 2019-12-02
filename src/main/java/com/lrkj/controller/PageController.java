@@ -2,6 +2,7 @@ package com.lrkj.controller;
 
 import com.lrkj.model.BaseUser;
 import com.lrkj.service.BookService;
+import com.lrkj.service.BorrowingRecordService;
 import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,46 +10,86 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 public class PageController {
 
     @Autowired
     BookService bookService;
+    @Autowired
+    BorrowingRecordService borrowingRecordService;
 
     @RequestMapping("/login")
-    public String index(){
+    public String index() {
         return "login";
     }
 
 
+    /**
+     * 新增图书渲染
+     *
+     * @param httpSession
+     * @param model
+     * @return
+     */
     @RequestMapping("/admin/addBook")
-    public String addBook(HttpSession httpSession, Model model){
+    public String addBook(HttpSession httpSession, Model model) {
         BaseUser baseUser = (BaseUser) httpSession.getAttribute("user");
-        if(baseUser == null || baseUser.getRoleid() != 4){
+        if (baseUser == null || baseUser.getRoleId() != 4) {
             return "login";
         }
-        model.addAttribute("list",bookService.list(null));
+        //查所有图书
+        model.addAttribute("list", bookService.list(null));
         return "admin_addbook";
     }
 
+    /**
+     * 借阅页面渲染
+     *
+     * @param model
+     * @return
+     */
     @RequestMapping("/user/bookList.do")
-    public String bookList( Model model){
-        model.addAttribute("list",bookService.list(null));
+    public String bookList(Model model, HttpSession httpSession,String bookName,Integer bookType) {
+        BaseUser baseUser = (BaseUser) httpSession.getAttribute("user");
+        if (baseUser == null) {
+            return "login";
+        }
+        Map<String, Object> where = new HashMap<>();
+        where.put("userId", baseUser.getId());
+        where.put("status", 1);
+        //查用户当前借阅中的记录
+        model.addAttribute("borrowingNum", borrowingRecordService.list(where).size());
+        where.put("status", 3);
+        //查询用户的逾期的记录
+        model.addAttribute("overdueNum", borrowingRecordService.list(where).size());
+        //查询所有图书
+        Map<String,Object> listWhere = new HashMap<>();
+        listWhere.put("bookName",bookName);
+        listWhere.put("bookType",bookType);
+        model.addAttribute("list", bookService.list(listWhere));
         return "user_booklist";
     }
 
 
+    /**
+     * 首页
+     *
+     * @param httpSession
+     * @return
+     */
     @RequestMapping("/home.do")
-    public String home(HttpSession httpSession){
+    public String home(HttpSession httpSession) {
         BaseUser baseUser = (BaseUser) httpSession.getAttribute("user");
-        if(baseUser == null){
+        if (baseUser == null) {
             return "login";
         }
 
-        if(baseUser.getRoleid() == 4){
+        if (baseUser.getRoleId() == 4) {
             return "detail_admin";
-        }else{
+        } else {
             return "detail_user";
         }
     }

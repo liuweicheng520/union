@@ -11,7 +11,7 @@ import lombok.Setter;
  *
  * @author lwc
  * @email 212425333@qq.com
- * @date 2019-11-27 16:56:05
+ * @date 2019-12-02 18:52:46
  */
 @Getter
 @Setter
@@ -26,7 +26,7 @@ public class BaseUser implements Serializable {
 
 	private String password;	// 密码
 
-	private Integer roleid;	// 角色id 1.信管学生 2.计算机学生 3.教师  4.超级管理员
+	private Integer roleId;	// 角色id 1.信管学生 2.计算机学生 3.教师  4.超级管理员
 
 	private String email;	// 邮箱地址
 

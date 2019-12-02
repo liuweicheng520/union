@@ -4,19 +4,19 @@
 <mapper namespace="com.lrkj.dao.BaseUserMapper">
 
     <select id="findById" resultType="com.lrkj.model.BaseUser">
-        select `id`,`nickname`,`account`,`password`,`roleId`,`email`,`phone`,`is_del` from base_user
+        select `id`,`nickname`,`account`,`password`,`role_id`,`email`,`phone`,`is_del` from base_user
         where id = #{value}
                     and is_del = 0
     </select>
 
     <select id="findByMap" resultType="com.lrkj.model.BaseUser">
-        select `id`,`nickname`,`account`,`password`,`roleId`,`email`,`phone`,`is_del` from base_user
+        select `id`,`nickname`,`account`,`password`,`role_id`,`email`,`phone`,`is_del` from base_user
         <where>
             <if test="id != null and id != ''"> and id = #{id} </if>
             <if test="nickname != null and nickname != ''"> and nickname = #{nickname} </if>
             <if test="account != null and account != ''"> and account = #{account} </if>
             <if test="password != null and password != ''"> and password = #{password} </if>
-            <if test="roleid != null and roleid != ''"> and roleId = #{roleid} </if>
+            <if test="roleId != null and roleId != ''"> and role_id = #{roleId} </if>
             <if test="email != null and email != ''"> and email = #{email} </if>
             <if test="phone != null and phone != ''"> and phone = #{phone} </if>
             <if test="isDel != null and isDel != ''"> and is_del = #{isDel} </if>
@@ -26,13 +26,13 @@
     </select>
 
     <select id="list" resultType="com.lrkj.model.BaseUser">
-        select `id`,`nickname`,`account`,`password`,`roleId`,`email`,`phone`,`is_del` from base_user
+        select `id`,`nickname`,`account`,`password`,`role_id`,`email`,`phone`,`is_del` from base_user
         <where>
             <if test="id != null and id != ''">and id = #{id}</if>
             <if test="nickname != null and nickname != ''">and nickname = #{nickname}</if>
             <if test="account != null and account != ''">and account = #{account}</if>
             <if test="password != null and password != ''">and password = #{password}</if>
-            <if test="roleid != null and roleid != ''">and roleId = #{roleid}</if>
+            <if test="roleId != null and roleId != ''">and role_id = #{roleId}</if>
             <if test="email != null and email != ''">and email = #{email}</if>
             <if test="phone != null and phone != ''">and phone = #{phone}</if>
             <if test="isDel != null and isDel != ''">and is_del = #{isDel}</if>
@@ -57,7 +57,7 @@
             <if test="nickname != null">`nickname`,</if>
             <if test="account != null">`account`,</if>
             <if test="password != null">`password`,</if>
-            <if test="roleid != null">`roleId`,</if>
+            <if test="roleId != null">`role_id`,</if>
             <if test="email != null">`email`,</if>
             <if test="phone != null">`phone`,</if>
             `is_del`
@@ -67,7 +67,7 @@
             <if test="nickname != null">#{nickname},</if>
             <if test="account != null">#{account},</if>
             <if test="password != null">#{password},</if>
-            <if test="roleid != null">#{roleid},</if>
+            <if test="roleId != null">#{roleId},</if>
             <if test="email != null">#{email},</if>
             <if test="phone != null">#{phone},</if>
             0
@@ -80,7 +80,7 @@
             <if test="nickname != null">`nickname` = #{nickname},</if>
             <if test="account != null">`account` = #{account},</if>
             <if test="password != null">`password` = #{password},</if>
-            <if test="roleid != null">`roleId` = #{roleid},</if>
+            <if test="roleId != null">`role_id` = #{roleId},</if>
             <if test="email != null">`email` = #{email},</if>
             <if test="phone != null">`phone` = #{phone},</if>
             <if test="isDel != null">`is_del` = #{isDel}</if>

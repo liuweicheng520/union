@@ -26,6 +26,7 @@
                 <th>借阅状态</th>
                 <th>借阅日期</th>
                 <th>截止日期</th>
+                <th>逾期金额</th>
                 <th>操作</th>
             </tr>
             </thead>
@@ -37,9 +38,13 @@
                 <td th:text="${res.overdueStatus() ==1 ? '快过期' : res.statusString()}"></td>
                 <td th:text="${res.getCreateTimeString()}"></td>
                 <td th:text="${res.getEndTimeString()}"></td>
+                <td th:text="${res.getFineMoney()}" th:style="${res.getFineMoney() > 0 ?'color:red':''}"></td>
                 <td th:if="${res.status!=2}">
-                    <a th:href="'/borrowing/user/returnBook.do/'+${res.id}">
+                    <a th:if="${res.status ==1}" th:href="'/borrowing/user/returnBook.do/'+${res.id}">
                         <button type="button" class="btn btn-primary">还书</button>
+                    </a>
+                    <a th:if="${res.status ==3}" th:href="'/borrowing/user/returnBook.do/'+${res.id}">
+                        <button type="button" class="btn btn-primary">缴纳罚款并还书</button>
                     </a>
 
                     <a th:if="${res.status ==1 && res.renewalNum <2}" th:href="'/borrowing/user/renewal.do/'+${res.id}">

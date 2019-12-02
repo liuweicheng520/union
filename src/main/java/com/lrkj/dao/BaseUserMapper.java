@@ -1,7 +1,6 @@
 package com.lrkj.dao;
 
 import com.lrkj.model.BaseUser;
-import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 import java.util.Map;
@@ -11,7 +10,7 @@ import java.util.Map;
  * 用户表
  * @author lwc
  * @email 212425333@qq.com
- * @date 2019-11-27 16:56:05
+ * @date 2019-12-02 18:52:46
  */
 public interface BaseUserMapper {
 
