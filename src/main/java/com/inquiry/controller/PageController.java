@@ -72,7 +72,7 @@ public class PageController {
         listWhere.put("bookName",bookName);
         listWhere.put("bookType",bookType);
         model.addAttribute("list", bookService.list(listWhere));
-        return "user_booklist";
+        return "user_list";
     }
 
 

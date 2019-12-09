@@ -1,14 +1,13 @@
-package com.lrkj.service.impl;
+package com.inquiry.service.impl;
 
+import com.inquiry.dao.InquiryRecordMapper;
+import com.inquiry.model.InquiryRecord;
+import com.inquiry.service.InquiryRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
-
-import com.lrkj.dao.InquiryRecordMapper;
-import com.lrkj.model.InquiryRecord;
-import com.lrkj.service.InquiryRecordService;
 
 @Service
 public class InquiryRecordServiceImpl implements InquiryRecordService {

@@ -1,20 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.lrkj.dao.InquiryMapper">
+<mapper namespace="com.inquiry.dao.InquiryMapper">
 
-    <select id="findById" resultType="com.lrkj.model.Inquiry">
-        select `id`,`inquiry_name`,`topic_name`,`create_time`,`end_time`,`is_del` from inquiry
+    <select id="findById" resultType="com.inquiry.model.Inquiry">
+        select `id`,`inquiry_name`,`topic_name`,`user_id`,`user_name`,`status`,`create_time`,`end_time`,`is_del` from inquiry
         where id = #{value}
                     and is_del = 0
     </select>
 
-    <select id="findByMap" resultType="com.lrkj.model.Inquiry">
-        select `id`,`inquiry_name`,`topic_name`,`create_time`,`end_time`,`is_del` from inquiry
+    <select id="findByMap" resultType="com.inquiry.model.Inquiry">
+        select `id`,`inquiry_name`,`topic_name`,`user_id`,`user_name`,`status`,`create_time`,`end_time`,`is_del` from inquiry
         <where>
             <if test="id != null and id != ''"> and id = #{id} </if>
             <if test="inquiryName != null and inquiryName != ''"> and inquiry_name = #{inquiryName} </if>
             <if test="topicName != null and topicName != ''"> and topic_name = #{topicName} </if>
+            <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+            <if test="userName != null and userName != ''"> and user_name = #{userName} </if>
+            <if test="status != null and status != ''"> and status = #{status} </if>
             <if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
             <if test="endTime != null and endTime != ''"> and end_time = #{endTime} </if>
             <if test="isDel != null and isDel != ''"> and is_del = #{isDel} </if>
@@ -23,12 +26,15 @@
         order by id desc limit 1
     </select>
 
-    <select id="list" resultType="com.lrkj.model.Inquiry">
-        select `id`,`inquiry_name`,`topic_name`,`create_time`,`end_time`,`is_del` from inquiry
+    <select id="list" resultType="com.inquiry.model.Inquiry">
+        select `id`,`inquiry_name`,`topic_name`,`user_id`,`user_name`,`status`,`create_time`,`end_time`,`is_del` from inquiry
         <where>
             <if test="id != null and id != ''">and id = #{id}</if>
             <if test="inquiryName != null and inquiryName != ''">and inquiry_name = #{inquiryName}</if>
             <if test="topicName != null and topicName != ''">and topic_name = #{topicName}</if>
+            <if test="userId != null and userId != ''">and user_id = #{userId}</if>
+            <if test="userName != null and userName != ''">and user_name = #{userName}</if>
+            <if test="status != null and status != ''">and status = #{status}</if>
             <if test="createTime != null and createTime != ''">and create_time = #{createTime}</if>
             <if test="endTime != null and endTime != ''">and end_time = #{endTime}</if>
             <if test="isDel != null and isDel != ''">and is_del = #{isDel}</if>
@@ -47,11 +53,14 @@
         </if>
     </select>
 
-    <insert id="save" parameterType="com.lrkj.model.Inquiry" useGeneratedKeys="true" keyProperty="id">
+    <insert id="save" parameterType="com.inquiry.model.Inquiry" useGeneratedKeys="true" keyProperty="id">
         insert into inquiry
         (
             <if test="inquiryName != null">`inquiry_name`,</if>
             <if test="topicName != null">`topic_name`,</if>
+            <if test="userId != null">`user_id`,</if>
+            <if test="userName != null">`user_name`,</if>
+            <if test="status != null">`status`,</if>
             <if test="createTime != null">`create_time`,</if>
             <if test="endTime != null">`end_time`,</if>
             `is_del`
@@ -60,17 +69,23 @@
         (
             <if test="inquiryName != null">#{inquiryName},</if>
             <if test="topicName != null">#{topicName},</if>
+            <if test="userId != null">#{userId},</if>
+            <if test="userName != null">#{userName},</if>
+            <if test="status != null">#{status},</if>
             <if test="createTime != null">#{createTime},</if>
             <if test="endTime != null">#{endTime},</if>
             0
         )
     </insert>
 
-    <update id="update" parameterType="com.lrkj.model.Inquiry">
+    <update id="update" parameterType="com.inquiry.model.Inquiry">
         update inquiry
         <set>
             <if test="inquiryName != null">`inquiry_name` = #{inquiryName},</if>
             <if test="topicName != null">`topic_name` = #{topicName},</if>
+            <if test="userId != null">`user_id` = #{userId},</if>
+            <if test="userName != null">`user_name` = #{userName},</if>
+            <if test="status != null">`status` = #{status},</if>
             <if test="createTime != null">`create_time` = #{createTime},</if>
             <if test="endTime != null">`end_time` = #{endTime},</if>
             <if test="isDel != null">`is_del` = #{isDel}</if>

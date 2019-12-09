@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>预约图书</title>
+    <title>我的问卷列表</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="/static/lib/css/homepage.css">
@@ -15,57 +15,40 @@
 <div style="padding: 20px 550px 10px">
     <form method="get" action="/user/bookList.do" class="form-inline" id="searchform">
         <div class="input-group">
-            <input type="text" placeholder="输入图书名" class="form-control" name="bookName">
+            <input type="text" placeholder="输入问卷名" class="form-control" name="inquiryName">
 
             <span class="input-group-btn">
                 <input type="submit" value="搜索" class="btn btn-default">
             </span>
 
         </div>
-        <div class="input-group">
-            <select id="ad-type" style="width: 80px" class="form-control" name="bookType">
-                <option value="0" selected>所有</option>
-                <option value="1">文学</option>
-                <option value="2">科幻</option>
-                <option value="3">漫画</option>
-            </select>
-        </div>
     </form>
 </div>
 
+
 <div class="panel panel-default" style="width: 90%;margin-left: 5%">
     <div class="panel-heading">
-        <h3 class="panel-title" style="text-align:center">热门图书</h3>
+        <h3 class="panel-title" style="text-align:center">问卷大厅</h3>
     </div>
     <div class="panel-body">
         <table class="table table-hover" style="text-align:center">
             <thead>
             <tr>
-                <th>isbn</th>
-                <th>书名</th>
-                <th>出版社</th>
-                <th>图书类型</th>
-                <th>作者</th>
-                <th>出版时间</th>
-                <th>预约</th>
+                <th>问卷名字</th>
+                <th>发布人</th>
+                <th>创建时间</th>
+                <th>状态</th>
+                <th>操作</th>
             </tr>
             </thead>
             <tbody>
-            <tr th:each="booklist: ${list}">
-                <td th:text="${booklist.bookNo}"></td>
-                <td th:text="${booklist.bookName}"></td>
-                <td th:text="${booklist.pressName}"></td>
-                <td th:text="${booklist.getBookTypeName()}"></td>
-                <td th:text="${booklist.authorName}"></td>
-                <td th:text="(${booklist.getCreateTimeString()})"></td>
+            <tr th:each="inquiry: ${list.list}">
+                <td th:text="${inquiry.inquiryName}"></td>
+                <td th:text="${inquiry.userName}"></td>
+                <td th:text="${inquiry.createTiemString}"></td>
+                <td th:text="${inquiry.statusString()}"></td>
 
                 <td>
-                    <span th:if="${overdueNum >0}"
-                          style="color: red">需要缴纳罚款
-                    </span>
-                    <span th:if="${overdueNum == 0 and borrowingNum >= 3}"
-                          style="color: red">已达到3次限定次数
-                    </span>
                     <a th:if="${overdueNum == 0 and borrowingNum <3}" th:href="'/book/'+${booklist.id}+'/borrowing.do'">
                         <button th:if="${booklist.getStatus() == 0 }" type="button"
                                 class="btn btn-info">借阅
@@ -78,6 +61,18 @@
                 </td>
             </tr>
             </tbody>
+            <tfoot>
+            <tr>
+                <td colspan="6">
+                    <a th:if="${list.hasPreviousPage}" th:href="'/admin/addBook'+'?page='+${list.getPrePage()}">上一页</a>
+                    <a th:if="${list.hasNextPage}" th:href="'/admin/addBook'+'?page='+${list.getNextPage()}">下一页</a>
+                    &nbsp;
+                    &nbsp;
+                    &nbsp;
+                    <span><span th:text="${list.getPageNum()}"></span>/<span th:text="${list.getPages()}"></span></span>
+                </td>
+            </tr>
+            </tfoot>
         </table>
     </div>
 </div>

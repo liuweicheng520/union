@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>我的问卷列表</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/lib/css/homepage.css">
+    <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div th:include="../static/common/headbar::headbar"></div>
+<div th:include="./detail_user::homepage"></div>
+<div style="padding: 20px 550px 10px">
+    <form method="get" action="/user/inquiry/list.do" class="form-inline" id="searchform">
+        <div class="input-group">
+            <input type="text" placeholder="输入问卷名" class="form-control" name="inquiryName">
+
+            <span class="input-group-btn">
+                <input type="submit" value="搜索" class="btn btn-default">
+            </span>
+
+        </div>
+    </form>
+</div>
+<div style="padding: 20px 550px 10px">
+    <button class="btn btn-success"
+            data-toggle="modal" data-target="#add">发布问卷
+    </button>
+    <!--    <button class="btn btn-danger"-->
+    <!--            data-toggle="modal" data-target="#delete">删除图书-->
+    <!--    </button>-->
+</div>
+
+<div id="add" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <button class="close" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+            </div>
+            <div class="modal-title">
+                <h1 class="text-center">发布问卷</h1>
+            </div>
+            <div class="modal-body">
+                <form id="form-login">
+                    <div class="form-group has-feedback">
+                        <label for="ad-name">问卷名称</label>
+                        <div class="input-group">
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-phone"></span></span>
+                            <input id="ad-name" class="form-control" placeholder="请输入名字"  type="text" required>
+                        </div>
+                        <span style="color:red;display: none;" class="tips"></span>
+                        <span style="display: none;" class="glyphicon glyphicon-remove form-control-feedback"></span>
+                        <span style="display: none;" class="glyphicon glyphicon-ok form-control-feedback"></span>
+                    </div>
+
+                    <div class="form-group has-feedback">
+                        <label for="ad-title">问卷题目</label>
+                        <div class="input-group">
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-book"></span></span>
+                            <input id="ad-title" class="form-control" placeholder="请输入题目" maxlength="20" required>
+                        </div>
+
+                        <span style="color:red;display: none;" class="tips"></span>
+                        <span style="display: none;" class="glyphicon glyphicon-remove form-control-feedback"></span>
+                        <span style="display: none;" class="glyphicon glyphicon-ok form-control-feedback"></span>
+                    </div>
+
+                    <div class="form-group has-feedback">
+                        <label for="ad-startTime">开始时间</label>
+                        <div class="input-group">
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-info-sign"></span></span>
+                            <input required  id="ad-startTime" type="date" class="form-control" placeholder="请输入时间"
+                                  >
+                        </div>
+
+                        <span style="color:red;display: none;" class="tips"></span>
+                        <span style="display: none;" class="glyphicon glyphicon-remove form-control-feedback"></span>
+                        <span style="display: none;" class="glyphicon glyphicon-ok form-control-feedback"></span>
+                    </div>
+
+
+                    <div class="form-group has-feedback">
+                        <label for="ad-endTime">结束时间</label>
+                        <div class="input-group">
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-info-sign"></span></span>
+                            <input required  id="ad-endTime" type="date" class="form-control" placeholder="请输入时间" >
+                        </div>
+
+                        <span style="color:red;display: none;" class="tips"></span>
+                        <span style="display: none;" class="glyphicon glyphicon-remove form-control-feedback"></span>
+                        <span style="display: none;" class="glyphicon glyphicon-ok form-control-feedback"></span>
+                    </div>
+
+                    <div class="form-group has-feedback">
+                        <div class="text-right">
+                            <button class="btn btn-primary" type="button" id="btn-add">添加</button>
+                            <button class="btn btn-danger" data-dismiss="modal">取消</button>
+                        </div>
+
+
+                        <span style="color:red;display: none;" class="tips"></span>
+                        <span style="display: none;" class="glyphicon glyphicon-remove form-control-feedback"></span>
+                        <span style="display: none;" class="glyphicon glyphicon-ok form-control-feedback"></span>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="panel panel-default" style="width: 90%;margin-left: 5%">
+    <div class="panel-heading">
+        <h3 class="panel-title" style="text-align:center">我的问卷列表</h3>
+    </div>
+    <div class="panel-body">
+        <table class="table table-hover" style="text-align:center">
+            <thead>
+            <tr>
+                <th>问卷名字</th>
+                <th>发布人</th>
+                <th>创建时间</th>
+                <th>状态</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="inquiry: ${list.list}">
+                <td th:text="${inquiry.inquiryName}"></td>
+                <td th:text="${inquiry.userName}"></td>
+                <td th:text="${inquiry.getCreateTimeString()}"></td>
+                <td th:text="${inquiry.statusString()}"></td>
+            </tr>
+            </tbody>
+            <tfoot>
+            <tr>
+                <td colspan="6">
+                    <a th:if="${list.hasPreviousPage}" th:href="'/admin/addBook'+'?page='+${list.getPrePage()}">上一页</a>
+                    <a th:if="${list.hasNextPage}" th:href="'/admin/addBook'+'?page='+${list.getNextPage()}">下一页</a>
+                    &nbsp;
+                    &nbsp;
+                    &nbsp;
+                    <span><span th:text="${list.getPageNum()}"></span>/<span th:text="${list.getPages()}"></span></span>
+                </td>
+            </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>
+<script src="/static/lib/js/check.js"></script>
+
+</body>
+</html>

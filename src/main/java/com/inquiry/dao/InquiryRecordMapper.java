@@ -1,6 +1,6 @@
-package com.lrkj.dao;
+package com.inquiry.dao;
 
-import com.lrkj.model.InquiryRecord;
+import com.inquiry.model.InquiryRecord;
 
 import java.util.List;
 import java.util.Map;
@@ -10,7 +10,7 @@ import java.util.Map;
  * 调查表-记录
  * @author lwc
  * @email 212425333@qq.com
- * @date 2019-12-09 09:46:43
+ * @date 2019-12-09 16:46:03
  */
 public interface InquiryRecordMapper {
 

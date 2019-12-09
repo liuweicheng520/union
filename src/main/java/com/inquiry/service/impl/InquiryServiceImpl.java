@@ -1,14 +1,19 @@
-package com.lrkj.service.impl;
+package com.inquiry.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.inquiry.dao.InquiryMapper;
+import com.inquiry.model.Inquiry;
+import com.inquiry.service.InquiryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
 
-import com.lrkj.dao.InquiryMapper;
-import com.lrkj.model.Inquiry;
-import com.lrkj.service.InquiryService;
+import com.inquiry.dao.InquiryMapper;
+import com.inquiry.model.Inquiry;
+import com.inquiry.service.InquiryService;
 
 @Service
 public class InquiryServiceImpl implements InquiryService {
@@ -46,6 +51,8 @@ public class InquiryServiceImpl implements InquiryService {
         return inquiryMapper.delete(id);
     }
 
-
-
+    @Override
+    public List<Inquiry> list(Map<String, Object> map, int page, int pageSize) {
+        return inquiryMapper.list(map);
+    }
 }

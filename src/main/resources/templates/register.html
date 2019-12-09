@@ -8,7 +8,7 @@
     <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <style>
-        input{
+        input {
             margin-top: 5px;
         }
     </style>
@@ -16,17 +16,18 @@
 <body>
 <div th:include="../static/common/headbar::headbar"></div>
 <div class="container">
-    <form class="form-signin" method="post" action="/login.do">
+    <form class="form-signin" method="post" action="/register.do">
         <h2 class="form-signin-heading">注册界面</h2>
-        <label for="username" class="sr-only">用户名</label>
-        <input type="text" class="form-control" placeholder="请输入用户名" required autofocus name="username" id="username">
-        <label for="name" class="sr-only">姓名</label>
-        <input type="text" name="password" class="form-control" placeholder="请输入姓名" id="name">
+        <label for="account" class="sr-only">用户名</label>
+        <input type="text" class="form-control" placeholder="请输入用户名" required autofocus name="account" id="account" >
+        <label for="nickname" class="sr-only">姓名</label>
+        <input type="text" name="nickname" class="form-control" placeholder="请输入姓名" id="nickname" required>
         <label for="phone" class="sr-only">手机号码</label>
-        <input type="text" name="password" class="form-control" placeholder="请输入手机号码" id="phone">
+        <input type="text" name="phone" class="form-control" placeholder="请输入手机号码" id="phone" required>
         <label for="password" class="sr-only">密码</label>
-        <input type="password" name="password" class="form-control" placeholder="请输入密码" id="password">
+        <input type="password" name="password" class="form-control" placeholder="请输入密码" id="password" required>
 
+        <span th:if="${msg!=null}">[[${msg}]]</span>
         <button class="btn btn-lg btn-primary btn-block" type="submit">register in</button>
 
         <div style="margin-top: 10px;"><a href="/login">去登陆</a></div>

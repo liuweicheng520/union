@@ -1,6 +1,6 @@
-package com.lrkj.service;
+package com.inquiry.service;
 
-import com.lrkj.model.InquiryRecord;
+import com.inquiry.model.InquiryRecord;
 
 import java.util.List;
 import java.util.Map;

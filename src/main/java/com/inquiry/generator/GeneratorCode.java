@@ -41,14 +41,14 @@ public class GeneratorCode {
 
 
     public static void main(String[] args) throws Exception {
-        genCodeByTableNames("admin", "base_user","inquiry","inquiry_record");
+        genCodeByTableNames("admin", "inquiry");
     }
 
     public static void genCodeByTableNames(String platformUrl, String... tableNames) throws Exception {
         for (String tableName : tableNames) {
             //根据需求生成，不需要的注掉，模板有问题的话可以自己修改。
             genModelAndMapper(platformUrl, tableName); // 生成model和mapper
-            genService(platformUrl, tableName); // 生成service
+//            genService(platformUrl, tableName); // 生成service
 //            genController(platformUrl, tableName); // 生成controller
         }
     }
@@ -148,8 +148,8 @@ public class GeneratorCode {
 
     public static void genModelAndMapper(String platformUrl, String tableName) throws Exception {
         List<String> templates = new ArrayList<String>();
-        templates.add("generator/domain.java.vm");
-        templates.add("generator/Dao.java.vm");
+//        templates.add("generator/domain.java.vm");
+//        templates.add("generator/Dao.java.vm");
         templates.add("generator/Mapper.xml.vm");
         //配置信息
         Configuration config = getConfig();
