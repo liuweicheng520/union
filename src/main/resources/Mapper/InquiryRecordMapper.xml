@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.lrkj.dao.InquiryRecordMapper">
+
+    <select id="findById" resultType="com.lrkj.model.InquiryRecord">
+        select `id`,`inquiry_id`,`answer`,`create_time`,`end_time`,`is_del` from inquiry_record
+        where id = #{value}
+                    and is_del = 0
+    </select>
+
+    <select id="findByMap" resultType="com.lrkj.model.InquiryRecord">
+        select `id`,`inquiry_id`,`answer`,`create_time`,`end_time`,`is_del` from inquiry_record
+        <where>
+            <if test="id != null and id != ''"> and id = #{id} </if>
+            <if test="inquiryId != null and inquiryId != ''"> and inquiry_id = #{inquiryId} </if>
+            <if test="answer != null and answer != ''"> and answer = #{answer} </if>
+            <if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
+            <if test="endTime != null and endTime != ''"> and end_time = #{endTime} </if>
+            <if test="isDel != null and isDel != ''"> and is_del = #{isDel} </if>
+            and is_del = 0
+        </where>
+        order by id desc limit 1
+    </select>
+
+    <select id="list" resultType="com.lrkj.model.InquiryRecord">
+        select `id`,`inquiry_id`,`answer`,`create_time`,`end_time`,`is_del` from inquiry_record
+        <where>
+            <if test="id != null and id != ''">and id = #{id}</if>
+            <if test="inquiryId != null and inquiryId != ''">and inquiry_id = #{inquiryId}</if>
+            <if test="answer != null and answer != ''">and answer = #{answer}</if>
+            <if test="createTime != null and createTime != ''">and create_time = #{createTime}</if>
+            <if test="endTime != null and endTime != ''">and end_time = #{endTime}</if>
+            <if test="isDel != null and isDel != ''">and is_del = #{isDel}</if>
+            and is_del = 0
+        </where>
+        <choose>
+            <when test="sortColumn != null and sortColumn.trim() != ''">
+                order by ${sortColumn} ${orderBy}
+            </when>
+            <otherwise>
+                order by id desc
+            </otherwise>
+        </choose>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <insert id="save" parameterType="com.lrkj.model.InquiryRecord" useGeneratedKeys="true" keyProperty="id">
+        insert into inquiry_record
+        (
+            <if test="inquiryId != null">`inquiry_id`,</if>
+            <if test="answer != null">`answer`,</if>
+            <if test="createTime != null">`create_time`,</if>
+            <if test="endTime != null">`end_time`,</if>
+            `is_del`
+        )
+        values
+        (
+            <if test="inquiryId != null">#{inquiryId},</if>
+            <if test="answer != null">#{answer},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="endTime != null">#{endTime},</if>
+            0
+        )
+    </insert>
+
+    <update id="update" parameterType="com.lrkj.model.InquiryRecord">
+        update inquiry_record
+        <set>
+            <if test="inquiryId != null">`inquiry_id` = #{inquiryId},</if>
+            <if test="answer != null">`answer` = #{answer},</if>
+            <if test="createTime != null">`create_time` = #{createTime},</if>
+            <if test="endTime != null">`end_time` = #{endTime},</if>
+            <if test="isDel != null">`is_del` = #{isDel}</if>
+        </set>
+        where id = #{id} and is_del = 0
+    </update>
+
+    <delete id="delete">
+        update inquiry_record
+        <set>
+            is_del = 1
+        </set>
+        where id = #{value}
+    </delete>
+
+
+</mapper>

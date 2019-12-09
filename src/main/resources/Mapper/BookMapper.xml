@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.book.dao.BookMapper">
+<mapper namespace="com.inquiry.dao.BookMapper">
 
-    <select id="findById" resultType="com.book.model.Book">
+    <select id="findById" resultType="com.inquiry.model.Book">
         select `id`,`book_no`,`book_name`,`book_type`,`press_name`,`author_name`,`status`,`create_time`,`is_del` from book
         where id = #{value}
                     and is_del = 0
     </select>
 
-    <select id="findByMap" resultType="com.book.model.Book">
+    <select id="findByMap" resultType="com.inquiry.model.Book">
         select `id`,`book_no`,`book_name`,`book_type`,`press_name`,`author_name`,`status`,`create_time`,`is_del` from
         book
         <where>
@@ -27,7 +27,7 @@
         order by id desc limit 1
     </select>
 
-    <select id="list" resultType="com.book.model.Book">
+    <select id="list" resultType="com.inquiry.model.Book">
         select `id`,`book_no`,`book_name`,`book_type`,`press_name`,`author_name`,`status`,`create_time`,`is_del` from
         book
         <where>
@@ -55,7 +55,7 @@
         </if>
     </select>
 
-    <insert id="save" parameterType="com.book.model.Book" useGeneratedKeys="true" keyProperty="id">
+    <insert id="save" parameterType="com.inquiry.model.Book" useGeneratedKeys="true" keyProperty="id">
         insert into book
         (
         <if test="bookNo != null">`book_no`,</if>
@@ -80,7 +80,7 @@
         )
     </insert>
 
-    <update id="update" parameterType="com.book.model.Book">
+    <update id="update" parameterType="com.inquiry.model.Book">
         update book
         <set>
             <if test="bookNo != null">`book_no` = #{bookNo},</if>

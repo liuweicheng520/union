@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.book.dao.BaseUserMapper">
+<mapper namespace="com.inquiry.dao.BaseUserMapper">
 
-    <select id="findById" resultType="com.book.model.BaseUser">
+    <select id="findById" resultType="com.inquiry.model.BaseUser">
         select `id`,`nickname`,`account`,`password`,`role_id`,`email`,`phone`,`is_del` from base_user
         where id = #{value}
                     and is_del = 0
     </select>
 
-    <select id="findByMap" resultType="com.book.model.BaseUser">
+    <select id="findByMap" resultType="com.inquiry.model.BaseUser">
         select `id`,`nickname`,`account`,`password`,`role_id`,`email`,`phone`,`is_del` from base_user
         <where>
             <if test="id != null and id != ''"> and id = #{id} </if>
@@ -25,7 +25,7 @@
         order by id desc limit 1
     </select>
 
-    <select id="list" resultType="com.book.model.BaseUser">
+    <select id="list" resultType="com.inquiry.model.BaseUser">
         select `id`,`nickname`,`account`,`password`,`role_id`,`email`,`phone`,`is_del` from base_user
         <where>
             <if test="id != null and id != ''">and id = #{id}</if>
@@ -51,7 +51,7 @@
         </if>
     </select>
 
-    <insert id="save" parameterType="com.book.model.BaseUser" useGeneratedKeys="true" keyProperty="id">
+    <insert id="save" parameterType="com.inquiry.model.BaseUser" useGeneratedKeys="true" keyProperty="id">
         insert into base_user
         (
             <if test="nickname != null">`nickname`,</if>
@@ -74,7 +74,7 @@
         )
     </insert>
 
-    <update id="update" parameterType="com.book.model.BaseUser">
+    <update id="update" parameterType="com.inquiry.model.BaseUser">
         update base_user
         <set>
             <if test="nickname != null">`nickname` = #{nickname},</if>

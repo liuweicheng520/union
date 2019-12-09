@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.book.dao.BorrowingRecordMapper">
+<mapper namespace="com.inquiry.dao.BorrowingRecordMapper">
 
-    <select id="findById" resultType="com.book.model.BorrowingRecord">
+    <select id="findById" resultType="com.inquiry.model.BorrowingRecord">
         select `id`,`borrowing_no`,`book_id`,`user_id`,`user_name`,`book_name`,`fine_money`,`renewal_num`,`status`,`create_time`,`end_time`,`is_del` from borrowing_record
         where id = #{value}
                     and is_del = 0
     </select>
 
-    <select id="findByMap" resultType="com.book.model.BorrowingRecord">
+    <select id="findByMap" resultType="com.inquiry.model.BorrowingRecord">
         select `id`,`borrowing_no`,`book_id`,`user_id`,`user_name`,`book_name`,`fine_money`,`renewal_num`,`status`,`create_time`,`end_time`,`is_del` from borrowing_record
         <where>
             <if test="id != null and id != ''"> and id = #{id} </if>
@@ -29,7 +29,7 @@
         order by id desc limit 1
     </select>
 
-    <select id="list" resultType="com.book.model.BorrowingRecord">
+    <select id="list" resultType="com.inquiry.model.BorrowingRecord">
         select `id`,`borrowing_no`,`book_id`,`user_id`,`user_name`,`book_name`,`fine_money`,`renewal_num`,`status`,`create_time`,`end_time`,`is_del` from borrowing_record
         <where>
             <if test="id != null and id != ''">and id = #{id}</if>
@@ -59,7 +59,7 @@
         </if>
     </select>
 
-    <insert id="save" parameterType="com.book.model.BorrowingRecord" useGeneratedKeys="true" keyProperty="id">
+    <insert id="save" parameterType="com.inquiry.model.BorrowingRecord" useGeneratedKeys="true" keyProperty="id">
         insert into borrowing_record
         (
             <if test="borrowingNo != null">`borrowing_no`,</if>
@@ -90,7 +90,7 @@
         )
     </insert>
 
-    <update id="update" parameterType="com.book.model.BorrowingRecord">
+    <update id="update" parameterType="com.inquiry.model.BorrowingRecord">
         update borrowing_record
         <set>
             <if test="borrowingNo != null">`borrowing_no` = #{borrowingNo},</if>

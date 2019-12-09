@@ -7,20 +7,29 @@
     <link rel="stylesheet" href="../static/lib/css/signin.css">
     <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style>
+        input{
+            margin-top: 5px;
+        }
+    </style>
 </head>
 <body>
 <div th:include="../static/common/headbar::headbar"></div>
 <div class="container">
     <form class="form-signin" method="post" action="/login.do">
-        <img src="/static/lib/images/qc.jpg" alt="leader" height="300" width="300">
-        <h2 class="form-signin-heading">登录界面</h2>
+        <h2 class="form-signin-heading">注册界面</h2>
         <label for="username" class="sr-only">用户名</label>
         <input type="text" class="form-control" placeholder="请输入用户名" required autofocus name="username" id="username">
+        <label for="name" class="sr-only">姓名</label>
+        <input type="text" name="password" class="form-control" placeholder="请输入姓名" id="name">
+        <label for="phone" class="sr-only">手机号码</label>
+        <input type="text" name="password" class="form-control" placeholder="请输入手机号码" id="phone">
         <label for="password" class="sr-only">密码</label>
         <input type="password" name="password" class="form-control" placeholder="请输入密码" id="password">
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
 
-        <div style="margin-top: 10px;"><a href="/register">去注册</a></div>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">register in</button>
+
+        <div style="margin-top: 10px;"><a href="/login">去登陆</a></div>
     </form>
 </div>
 
