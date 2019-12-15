@@ -4,7 +4,6 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.inquiry.core.ApiResponse;
 import com.inquiry.model.BaseUser;
-import com.inquiry.model.Book;
 import com.inquiry.model.Inquiry;
 import com.inquiry.model.InquiryRecord;
 import com.inquiry.service.InquiryRecordService;
@@ -24,7 +23,6 @@ import java.util.Map;
 
 /**
  * @Description:
- * @Auther: liuweicheng
  * @Date: 2019-12-09 14:10
  */
 @SuppressWarnings("all")
@@ -49,22 +47,17 @@ public class InquiryController {
 
         PageHelper.startPage(page, 5);
         List<Inquiry> inquiryList = inquiryService.list(where);
-
+        where.put("userId", baseUser.getId());
         //判断用户是否有没有参加过此问卷
         for (Inquiry inquiry : inquiryList) {
-            if (inquiry.getUserId().equals(baseUser.getId())) {
-                //本人状态
-                inquiry.setStatus(1);
+            where.put("inquiryId", inquiry.getId());
+            InquiryRecord inquiryRecord = inquiryRecordService.findByMap(where);
+            if (inquiryRecord == null) {
+                //未参加状态
+                inquiry.setUserStatus(2);
             } else {
-                where.put("inquiryId", inquiry.getId());
-                InquiryRecord inquiryRecord = inquiryRecordService.findByMap(where);
-                if (inquiryRecord == null) {
-                    //未参加状态
-                    inquiry.setStatus(2);
-                } else {
-                    //已参加状态
-                    inquiry.setStatus(3);
-                }
+                //已参加状态
+                inquiry.setUserStatus(3);
             }
         }
 
@@ -80,7 +73,6 @@ public class InquiryController {
     public String myInquiryList(HttpSession httpSession, String inquiryName, Integer page, Model model) {
         BaseUser baseUser = (BaseUser) httpSession.getAttribute("user");
         Map<String, Object> where = new HashMap<>();
-        where.put("userId", baseUser.getId());
         where.put("inquiryName", inquiryName);
 
         page = page == null ? 1 : page;
@@ -101,7 +93,7 @@ public class InquiryController {
      */
     public ApiResponse add(@RequestBody Inquiry inquiry, HttpSession httpSession) {
         Map<String, Object> where = new HashMap<>();
-        where.put("inquiry", inquiry.getInquiryName());
+        where.put("inquiryName", inquiry.getInquiryName());
         Inquiry inquiry1 = inquiryService.findByMap(where);
 
         BaseUser baseUser = (BaseUser) httpSession.getAttribute("user");
@@ -115,6 +107,13 @@ public class InquiryController {
         System.out.println(inquiry);
         inquiryService.save(inquiry);
         return ApiResponse.getDefaultResponse("添加成功");
+    }
+
+
+    @RequestMapping("/user/inquiry/details.do")
+    @ResponseBody
+    public ApiResponse details(Long id) {
+        return ApiResponse.getDefaultResponse(inquiryService.findById(id));
     }
 
 

@@ -12,10 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
@@ -24,7 +21,6 @@ import java.util.Map;
 
 /**
  * @Description: 管理员
- * @Auther: liuweicheng
  * @Date: 2019-12-09 14:31
  */
 @SuppressWarnings("all")
@@ -42,9 +38,10 @@ public class AdminController {
      * @return
      */
     @RequestMapping("/admin/inquiry/list.do")
-    public String inquiryList(HttpSession httpSession, Integer page, Model model) {
+    public String inquiryList(HttpSession httpSession, String inquiryName, Integer page, Model model) {
         BaseUser baseUser = (BaseUser) httpSession.getAttribute("user");
         Map<String, Object> where = new HashMap<>();
+        where.put("inquiryName", inquiryName);
         page = page == null ? 1 : page;
         PageHelper.startPage(page, 5);
         List<Inquiry> inquiryList = inquiryService.list(where);
@@ -72,7 +69,7 @@ public class AdminController {
     /**
      * 审核拒绝
      */
-    @RequestMapping("/admin/refuse.do/{id}")
+    @RequestMapping("/admin/inquiry/refuse.do/{id}")
     public String refuse(@PathVariable Long id, HttpSession httpSession) {
         BaseUser baseUser = (BaseUser) httpSession.getAttribute("user");
         if (baseUser.getRoleId() < 2) {
@@ -92,15 +89,17 @@ public class AdminController {
      * @param model
      */
     @RequestMapping("/admin/user/list.do")
-    public String userList(Model model) {
+    public String userList(Model model, Integer page) {
+        page = page == null ? 1 : page;
+        PageHelper.startPage(page, 5);
         List<BaseUser> baseUserList = baseUserService.list(null);
-        model.addAttribute("list", baseUserList);
-        return "admin_userList";
+        model.addAttribute("list", new PageInfo<BaseUser>(baseUserList));
+        return "admin_user_list";
     }
 
     @PostMapping("/admin/user/add.do")
     @ResponseBody
-    public ApiResponse addUser(Model model, BaseUser baseUser) {
+    public ApiResponse addUser(Model model, @RequestBody BaseUser baseUser) {
         Map<String, Object> map = new HashMap<>();
         map.put("account", baseUser.getAccount());
 

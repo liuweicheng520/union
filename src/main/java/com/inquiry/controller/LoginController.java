@@ -37,7 +37,7 @@ public class LoginController {
         } else {
             //将用户信息存入session中
             session.setAttribute("user", baseUser);
-            if (baseUser.getRoleId() == 2) {
+            if (baseUser.getRoleId() >= 2) {
                 //判断用户角色,4.管理员跳管理系统页面,其他就跳用户界面
                 return "detail_admin";
             }

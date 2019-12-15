@@ -12,21 +12,10 @@
 <body>
 <div th:include="../static/common/headbar::headbar"></div>
 <div th:include="./detail_admin::homepage"></div>
+
 <div style="padding: 20px 550px 10px">
-    <form method="get" action="/user/inquiry/myList.do" class="form-inline" id="searchform">
-        <div class="input-group">
-            <input type="text" placeholder="输入问卷名" class="form-control" name="inquiryName">
-
-            <span class="input-group-btn">
-                <input type="submit" value="搜索" class="btn btn-default">
-            </span>
-
-        </div>
-    </form>
-</div>
-<div style="padding: 20px 550px 10px" th:if="${session.user.getRoleId() == 2}">
     <button class="btn btn-success"
-            data-toggle="modal" data-target="#add">发布问卷
+            data-toggle="modal" data-target="#add">创建管理员
     </button>
     <!--    <button class="btn btn-danger"-->
     <!--            data-toggle="modal" data-target="#delete">删除图书-->
@@ -42,12 +31,12 @@
                 </button>
             </div>
             <div class="modal-title">
-                <h1 class="text-center">发布问卷</h1>
+                <h1 class="text-center">创建管理员</h1>
             </div>
             <div class="modal-body">
                 <form id="form-login">
                     <div class="form-group has-feedback">
-                        <label for="ad-name">问卷名称</label>
+                        <label for="ad-name">用户姓名</label>
                         <div class="input-group">
                             <span class="input-group-addon"><span class="glyphicon glyphicon-phone"></span></span>
                             <input id="ad-name" class="form-control" placeholder="请输入名字" type="text" required>
@@ -58,10 +47,10 @@
                     </div>
 
                     <div class="form-group has-feedback">
-                        <label for="ad-title">问卷题目</label>
+                        <label for="ad-account">用户账号</label>
                         <div class="input-group">
                             <span class="input-group-addon"><span class="glyphicon glyphicon-book"></span></span>
-                            <input id="ad-title" class="form-control" placeholder="请输入题目" maxlength="20" required>
+                            <input id="ad-account" class="form-control" placeholder="请输入账号" maxlength="20" required>
                         </div>
 
                         <span style="color:red;display: none;" class="tips"></span>
@@ -70,12 +59,12 @@
                     </div>
 
                     <div class="form-group has-feedback">
-                        <label for="ad-startTime">开始时间</label>
+                        <label for="ad-password">用户密码</label>
                         <div class="input-group">
-                            <span class="input-group-addon"><span class="glyphicon glyphicon-info-sign"></span></span>
-                            <input required id="ad-startTime" type="date" class="form-control" placeholder="请输入时间"
-                            >
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-book"></span></span>
+                            <input id="ad-password" type="password" class="form-control" placeholder="请输入账号" maxlength="20" required>
                         </div>
+
 
                         <span style="color:red;display: none;" class="tips"></span>
                         <span style="display: none;" class="glyphicon glyphicon-remove form-control-feedback"></span>
@@ -84,10 +73,10 @@
 
 
                     <div class="form-group has-feedback">
-                        <label for="ad-endTime">结束时间</label>
+                        <label for="ad-phone">手机号</label>
                         <div class="input-group">
                             <span class="input-group-addon"><span class="glyphicon glyphicon-info-sign"></span></span>
-                            <input required id="ad-endTime" type="date" class="form-control" placeholder="请输入时间">
+                            <input required id="ad-phone" type="text" maxlength="13" class="form-control" placeholder="请输入手机号">
                         </div>
 
                         <span style="color:red;display: none;" class="tips"></span>
@@ -112,44 +101,38 @@
     </div>
 </div>
 
+
 <div class="panel panel-default" style="width: 90%;margin-left: 5%">
     <div class="panel-heading">
-        <h3 class="panel-title" style="text-align:center">问卷列表</h3>
+        <h3 class="panel-title" style="text-align:center">用户列表</h3>
     </div>
     <div class="panel-body">
         <table class="table table-hover" style="text-align:center">
             <thead>
             <tr>
-                <th>问卷名字</th>
-                <th>发布人</th>
-                <th>问卷题目</th>
-                <th>创建时间</th>
-                <th>状态</th>
-                <th>操作</th>
+                <th>id</th>
+                <th>姓名</th>
+                <th>用户名</th>
+                <th>密码</th>
+                <th>手机号码</th>
+                <th>角色</th>
             </tr>
             </thead>
             <tbody>
-            <tr th:each="inquiry: ${list.list}">
-                <td th:text="${inquiry.inquiryName}"></td>
-                <td th:text="${inquiry.userName}"></td>
-                <td th:text="${inquiry.topicName}"></td>
-                <td th:text="${inquiry.getCreateTimeString()}"></td>
-                <td th:text="${inquiry.statusString()}"></td>
-                <td th:if="${inquiry.status == 2 && session.user.getRoleId() == 3}">
-                    <a th:href="'/user/inquiryRecord/list.do'+'?id='+${inquiry.id}">
-                        <button type="button"
-                                class="btn btn-info inquiry-add" th:data-id="${inquiry.id}">查看详情
-                        </button>
-                    </a>
-                </td>
+            <tr th:each="user: ${list.list}">
+                <td th:text="${user.id}"></td>
+                <td th:text="${user.nickname}"></td>
+                <td th:text="${user.account}"></td>
+                <td th:text="${user.password}"></td>
+                <td th:text="${user.phone}"></td>
+                <td th:text="${user.getRoleName()}"></td>
             </tr>
             </tbody>
             <tfoot>
             <tr>
                 <td colspan="6">
-                    <a th:if="${list.hasPreviousPage}"
-                       th:href="'/user/inquiry/myList.do'+'?page='+${list.getPrePage()}">上一页</a>
-                    <a th:if="${list.hasNextPage}" th:href="'/user/inquiry/myList.do'+'?page='+${list.getNextPage()}">下一页</a>
+                    <a th:if="${list.hasPreviousPage}" th:href="'/admin/user/list.do'+'?page='+${list.getPrePage()}">上一页</a>
+                    <a th:if="${list.hasNextPage}" th:href="'/admin/user/list.do'+'?page='+${list.getNextPage()}">下一页</a>
                     &nbsp;
                     &nbsp;
                     &nbsp;
@@ -160,7 +143,36 @@
         </table>
     </div>
 </div>
-<script src="/static/lib/js/check.js"></script>
+<script>
+    //add
+    $('#btn-add').click(function (e) {
+
+        var account = document.getElementById("ad-account").value;
+        var name = document.getElementById("ad-name").value;
+        var phone = document.getElementById("ad-phone").value;
+        var password = document.getElementById("ad-password").value;
+        var data = {
+            'account':account, 'nickname': name,
+            'phone':phone, 'password': password,
+        };
+        var JSONdata = JSON.stringify(data);
+        $.ajax({
+            type: "post",
+            url: "/admin/user/add.do",
+            data: JSONdata,
+            dataType: "json",
+            contentType: "application/json;charset=UTF-8",
+            success: function (result) {
+                if (result.code == 200) {
+                    alert(result.data);
+                } else {
+                    alert("添加失败");
+                }
+            }
+        });
+    })
+    ;
+</script>
 
 </body>
 </html>

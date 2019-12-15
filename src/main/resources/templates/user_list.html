@@ -13,7 +13,7 @@
 <div th:include="../static/common/headbar::headbar"></div>
 <div th:include="./detail_user::homepage"></div>
 <div style="padding: 20px 550px 10px">
-    <form method="get" action="/user/bookList.do" class="form-inline" id="searchform">
+    <form method="get" action="/user/inquiry/list.do" class="form-inline" id="searchform">
         <div class="input-group">
             <input type="text" placeholder="输入问卷名" class="form-control" name="inquiryName">
 
@@ -25,6 +25,48 @@
     </form>
 </div>
 
+<div id="add" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <button class="close" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+            </div>
+            <div class="modal-title">
+                <h1 class="text-center">发布问卷</h1>
+            </div>
+            <div class="modal-body">
+                <form id="form-login">
+                    <div class="form-group has-feedback">
+                        <input type="hidden" id="inquiry-id">
+                        <label for="ad-answer">问卷题目:<span id="inquiry-title"></span></label>
+                        <div class="input-group">
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-book"></span></span>
+                            <input id="ad-answer" class="form-control" placeholder="请输入" maxlength="20" required>
+                        </div>
+
+                        <span style="color:red;display: none;" class="tips"></span>
+                        <span style="display: none;" class="glyphicon glyphicon-remove form-control-feedback"></span>
+                        <span style="display: none;" class="glyphicon glyphicon-ok form-control-feedback"></span>
+                    </div>
+
+                    <div class="form-group has-feedback">
+                        <div class="text-right">
+                            <button class="btn btn-primary" type="button" id="btn-add">添加</button>
+                            <button class="btn btn-danger" data-dismiss="modal">取消</button>
+                        </div>
+
+
+                        <span style="color:red;display: none;" class="tips"></span>
+                        <span style="display: none;" class="glyphicon glyphicon-remove form-control-feedback"></span>
+                        <span style="display: none;" class="glyphicon glyphicon-ok form-control-feedback"></span>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
 <div class="panel panel-default" style="width: 90%;margin-left: 5%">
     <div class="panel-heading">
@@ -45,27 +87,28 @@
             <tr th:each="inquiry: ${list.list}">
                 <td th:text="${inquiry.inquiryName}"></td>
                 <td th:text="${inquiry.userName}"></td>
-                <td th:text="${inquiry.createTiemString}"></td>
+                <td th:text="${inquiry.getCreateTimeString()}"></td>
                 <td th:text="${inquiry.statusString()}"></td>
 
                 <td>
-                    <a th:if="${overdueNum == 0 and borrowingNum <3}" th:href="'/book/'+${booklist.id}+'/borrowing.do'">
-                        <button th:if="${booklist.getStatus() == 0 }" type="button"
-                                class="btn btn-info">借阅
-                        </button>
 
-                        <button th:if="${booklist.getStatus() == 1}" type="button" class="btn btn-info"
-                                style="color: red" disabled>已被借阅
-                        </button>
-                    </a>
+                    <button th:if="${inquiry.userStatus !=3 && inquiry.getTimeStatus() == 0}" type="button"
+                            class="btn btn-info inquiry-add" th:data-id="${inquiry.id}" data-toggle="modal"
+                            data-target="#add">参加
+                    </button>
+
+                    <button th:if="${inquiry.userStatus  == 3}"
+                            style="color: red" class="btn btn-info inquiry-add" disabled>已参加
+                    </button>
                 </td>
             </tr>
             </tbody>
             <tfoot>
             <tr>
                 <td colspan="6">
-                    <a th:if="${list.hasPreviousPage}" th:href="'/admin/addBook'+'?page='+${list.getPrePage()}">上一页</a>
-                    <a th:if="${list.hasNextPage}" th:href="'/admin/addBook'+'?page='+${list.getNextPage()}">下一页</a>
+                    <a th:if="${list.hasPreviousPage}" th:href="'/user/inquiry/list.do'+'?page='+${list.getPrePage()}">上一页</a>
+                    <a th:if="${list.hasNextPage}"
+                       th:href="'/user/inquiry/list.do'+'?page='+${list.getNextPage()}">下一页</a>
                     &nbsp;
                     &nbsp;
                     &nbsp;
@@ -76,6 +119,82 @@
         </table>
     </div>
 </div>
+<script>
+    $(".inquiry-add").click(function (e) {
+        var id = $(this).attr("data-id");
+        $("#inquiry-id").val(id);
+        $.ajax({
+            type: "get",
+            url: "/user/inquiry/details.do",
+            data: "id=" + parseInt(id),
+            dataType: "json",
+            contentType: "application/json;charset=UTF-8",
+            success: function (result) {
+                if (result.code == 200) {
+                    $("#inquiry-title").html(result.data.topicName);
+                }
+            }
+        })
+    });
+    //add
+    $('#btn-add').click(function (e) {
 
+        var id = $("#inquiry-id").val();
+        var answer = document.getElementById("ad-answer").value;
+        var data = {
+            'inquiryId': parseInt(id), 'answer': answer,
+        };
+        var JSONdata = JSON.stringify(data);
+        $.ajax({
+            type: "post",
+            url: "/user/inquiryRecord/add.do",
+            data: JSONdata,
+            dataType: "json",
+            contentType: "application/json;charset=UTF-8",
+            success: function (result) {
+                if (result.code == 200) {
+                    alert(result.data);
+                    $("#ad-answer").val("");
+                } else {
+                    alert("添加失败");
+                }
+            }
+        });
+    })
+    ;
+
+    $('#btn-delete').click(function (e) {
+        if (!checkadd.every(function (value) {
+            return value == true
+        })) {
+            e.preventDefault();
+            for (key in checkdel) {
+                if (!checkdel[key]) {
+                    $('#delete').find('input').eq(key).parent().parent().removeClass('has-success').addClass('has-error')
+                }
+            }
+        } else {
+            var ISBN = document.getElementById("dl-isbn").value;
+            var booklist = {
+                'isbn': ISBN
+            };
+            var JSONdata = JSON.stringify(booklist);
+            $.ajax({
+                type: "post",
+                url: "/book/admin/delete",
+                data: JSONdata,
+                dataType: "json",
+                contentType: "application/json;charset=UTF-8",
+                success: function (result) {
+                    if (result['success']) {
+                        alert("删除成功");
+                    } else {
+                        alert("删除失败");
+                    }
+                }
+            });
+        }
+    });
+</script>
 </body>
 </html>

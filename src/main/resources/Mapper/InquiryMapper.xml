@@ -30,7 +30,7 @@
         select `id`,`inquiry_name`,`topic_name`,`user_id`,`user_name`,`status`,`create_time`,`end_time`,`is_del` from inquiry
         <where>
             <if test="id != null and id != ''">and id = #{id}</if>
-            <if test="inquiryName != null and inquiryName != ''">and inquiry_name = #{inquiryName}</if>
+            <if test="inquiryName != null and inquiryName != ''">and inquiry_name like '%${inquiryName}%'</if>
             <if test="topicName != null and topicName != ''">and topic_name = #{topicName}</if>
             <if test="userId != null and userId != ''">and user_id = #{userId}</if>
             <if test="userName != null and userName != ''">and user_name = #{userName}</if>

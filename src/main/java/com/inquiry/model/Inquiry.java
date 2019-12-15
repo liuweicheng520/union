@@ -32,7 +32,7 @@ public class Inquiry implements Serializable {
 
     private String userName;    // 发布人名称
 
-    private Integer status;    // 1.审核中 2.未开始 3.进行中 4.已结束 5.审核失败
+    private Integer status;    // 1.审核中 2.进行中 3.审核失败
 
     private Long createTime;    // 创建时间
 
@@ -40,8 +40,9 @@ public class Inquiry implements Serializable {
 
     private Integer isDel;    // 0未删除 1.删除
 
-
     private Integer userStatus;//1.本人 2.未参加 3.已参加
+
+    private Integer timeStatus; //1.未开始 2.已结束 0.进行中
 
     public void setCreateTime(String createTime) throws ParseException {
         long time = new SimpleDateFormat("yyyy-MM-dd").parse(createTime).getTime();
@@ -70,11 +71,30 @@ public class Inquiry implements Serializable {
         return new SimpleDateFormat("yyyy-MM-dd").format(new Date(this.endTime * 1000));
     }
 
+    public Integer getTimeStatus() {
+        long time = System.currentTimeMillis() / 1000;
+        if (time < createTime) {
+            return 1;
+        }
+        if (time > endTime) {
+            return 2;
+        }
+        return 0;
+    }
+
     public String statusString() {
         if (status == 1) {
             return "审核中";
         } else if (status == 2) {
+            long time = System.currentTimeMillis() / 1000;
+            if (time < createTime) {
+                return "未开始";
+            }
+            if (time > endTime) {
+                return "已结束";
+            }
             return "进行中";
+
         } else if (status == 3) {
             return "审核失败";
         }

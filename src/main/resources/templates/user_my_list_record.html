@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>我的问卷列表</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/lib/css/homepage.css">
+    <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div th:include="../static/common/headbar::headbar"></div>
+<div th:include="./detail_admin::homepage"></div>
+
+<div class="panel panel-default" style="width: 90%;margin-left: 5%">
+    <div class="panel-heading">
+        <h3 class="panel-title" style="text-align:center">我的问卷列表</h3>
+    </div>
+    <div class="panel-body">
+        <table class="table table-hover" style="text-align:center">
+            <thead>
+            <tr>
+                <th>问卷名字</th>
+                <th>问卷题目</th>
+                <th>调查人</th>
+                <th>回答内容</th>
+                <th>创建时间</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="inquiry: ${list}">
+                <td th:text="${inquiry.inquiryName}"></td>
+                <td th:text="${inquiry.topicName}"></td>
+                <td th:text="${inquiry.userName}"></td>
+                <td th:text="${inquiry.answer}"></td>
+                <td th:text="${inquiry.getCreateTimeString()}"></td>
+            </tr>
+            </tbody>
+<!--            <tfoot>-->
+<!--            <tr>-->
+<!--                <td colspan="6">-->
+<!--                    <a th:if="${list.hasPreviousPage}" th:href="'/admin/addBook'+'?page='+${list.getPrePage()}">上一页</a>-->
+<!--                    <a th:if="${list.hasNextPage}" th:href="'/admin/addBook'+'?page='+${list.getNextPage()}">下一页</a>-->
+<!--                    &nbsp;-->
+<!--                    &nbsp;-->
+<!--                    &nbsp;-->
+<!--                    <span><span th:text="${list.getPageNum()}"></span>/<span th:text="${list.getPages()}"></span></span>-->
+<!--                </td>-->
+<!--            </tr>-->
+<!--            </tfoot>-->
+        </table>
+    </div>
+</div>
+
+</body>
+</html>

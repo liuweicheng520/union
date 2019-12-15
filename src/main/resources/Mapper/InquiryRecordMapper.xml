@@ -4,16 +4,18 @@
 <mapper namespace="com.inquiry.dao.InquiryRecordMapper">
 
     <select id="findById" resultType="com.inquiry.model.InquiryRecord">
-        select `id`,`inquiry_id`,`answer`,`user_id`,`user_name`,`create_time`,`end_time`,`is_del` from inquiry_record
+        select `id`,`inquiry_id`,`inquiry_name`,`topic_name`,`answer`,`user_id`,`user_name`,`create_time`,`end_time`,`is_del` from inquiry_record
         where id = #{value}
                     and is_del = 0
     </select>
 
     <select id="findByMap" resultType="com.inquiry.model.InquiryRecord">
-        select `id`,`inquiry_id`,`answer`,`user_id`,`user_name`,`create_time`,`end_time`,`is_del` from inquiry_record
+        select `id`,`inquiry_id`,`inquiry_name`,`topic_name`,`answer`,`user_id`,`user_name`,`create_time`,`end_time`,`is_del` from inquiry_record
         <where>
             <if test="id != null and id != ''"> and id = #{id} </if>
             <if test="inquiryId != null and inquiryId != ''"> and inquiry_id = #{inquiryId} </if>
+            <if test="inquiryName != null and inquiryName != ''"> and inquiry_name = #{inquiryName} </if>
+            <if test="topicName != null and topicName != ''"> and topic_name = #{topicName} </if>
             <if test="answer != null and answer != ''"> and answer = #{answer} </if>
             <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
             <if test="userName != null and userName != ''"> and user_name = #{userName} </if>
@@ -26,10 +28,12 @@
     </select>
 
     <select id="list" resultType="com.inquiry.model.InquiryRecord">
-        select `id`,`inquiry_id`,`answer`,`user_id`,`user_name`,`create_time`,`end_time`,`is_del` from inquiry_record
+        select `id`,`inquiry_id`,`inquiry_name`,`topic_name`,`answer`,`user_id`,`user_name`,`create_time`,`end_time`,`is_del` from inquiry_record
         <where>
             <if test="id != null and id != ''">and id = #{id}</if>
             <if test="inquiryId != null and inquiryId != ''">and inquiry_id = #{inquiryId}</if>
+            <if test="inquiryName != null and inquiryName != ''">and inquiry_name = #{inquiryName}</if>
+            <if test="topicName != null and topicName != ''">and topic_name = #{topicName}</if>
             <if test="answer != null and answer != ''">and answer = #{answer}</if>
             <if test="userId != null and userId != ''">and user_id = #{userId}</if>
             <if test="userName != null and userName != ''">and user_name = #{userName}</if>
@@ -55,6 +59,8 @@
         insert into inquiry_record
         (
             <if test="inquiryId != null">`inquiry_id`,</if>
+            <if test="inquiryName != null">`inquiry_name`,</if>
+            <if test="topicName != null">`topic_name`,</if>
             <if test="answer != null">`answer`,</if>
             <if test="userId != null">`user_id`,</if>
             <if test="userName != null">`user_name`,</if>
@@ -65,6 +71,8 @@
         values
         (
             <if test="inquiryId != null">#{inquiryId},</if>
+            <if test="inquiryName != null">#{inquiryName},</if>
+            <if test="topicName != null">#{topicName},</if>
             <if test="answer != null">#{answer},</if>
             <if test="userId != null">#{userId},</if>
             <if test="userName != null">#{userName},</if>
@@ -78,6 +86,8 @@
         update inquiry_record
         <set>
             <if test="inquiryId != null">`inquiry_id` = #{inquiryId},</if>
+            <if test="inquiryName != null">`inquiry_name` = #{inquiryName},</if>
+            <if test="topicName != null">`topic_name` = #{topicName},</if>
             <if test="answer != null">`answer` = #{answer},</if>
             <if test="userId != null">`user_id` = #{userId},</if>
             <if test="userName != null">`user_name` = #{userName},</if>

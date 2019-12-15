@@ -8,7 +8,6 @@ import java.util.Map;
 
 /**
  * 用户表
- * @author lwc
  * @email 212425333@qq.com
  * @date 2019-12-02 18:52:46
  */

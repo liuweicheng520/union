@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>图书管理系统</title>
+    <title>问卷管理系统</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="/static/lib/css/homepage.css">
@@ -14,26 +14,44 @@
     <nav class="nav nav-tabs" style="margin-top:50px;background-color: #EEEEEE">
         <div class="container-fluid">
             <div class="navbar-header">
-                <a class="navbar-brand" href="/home.do">图书管理</a>
+                <a class="navbar-brand" href="/home.do">问卷管理</a>
             </div>
             <div>
                 <ul class="nav navbar-nav">
-                    <li class="active"><a href="/managebooks/admin/books">问卷审核</a></li>
+                    <li th:if="${session.user.getRoleId() == 3}" class="active"><a href="/admin/inquiry/list.do">问卷审核</a></li>
+                    <li th:if="${session.user.getRoleId() == 3}" class="active"><a href="/admin/user/list.do">用户管理</a></li>
+                    <li th:if="${session.user.getRoleId() == 3}" class="active"><a href="/user/inquiry/myList.do">问卷列表</a></li>
+                    <li th:if="${session.user.getRoleId() == 2}" class="active"><a href="/user/inquiry/myList.do">发布问卷</a></li>
                 </ul>
             </div>
 
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="#" style="color: #000000"><span th:text="${session.user.nickname}+',欢迎您'"
                                                              class="glyphicon glyphicon-user"></span>&nbsp;</a></li>
-                <li><a href="/managebooks/login"><span class="glyphicon glyphicon-log-in"></span>&nbsp;退出</a></li>
+                <li><a href="/login"><span class="glyphicon glyphicon-log-in"></span>&nbsp;退出</a></li>
             </ul>
         </div>
     </nav>
 </div>
 
-<a href="/admin/addBook">
+<a href="/admin/inquiry/list.do" th:if="${session.user.getRoleId() == 3}">
     <div class="square1">
         <div class="no-logo">问卷审核</div>
+    </div>
+</a>
+、<a th:if="${session.user.getRoleId() == 3}" href="/admin/user/list.do">
+    <div class="square1">
+        <div class="no-logo">用户管理</div>
+    </div>
+</a>
+<a href="/user/inquiry/myList.do" th:if="${session.user.getRoleId() == 3}">
+    <div class="square1">
+        <div class="no-logo">问卷列表</div>
+    </div>
+</a>
+<a href="/user/inquiry/myList.do" th:if="${session.user.getRoleId() == 2}"  >
+    <div class="square1">
+        <div class="no-logo">发布问卷</div>
     </div>
 </a>
 
